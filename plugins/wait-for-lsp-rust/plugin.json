@@ -1,0 +1,14 @@
+{
+  "name": "wait-for-lsp-rust",
+  "description": "Rust language server (rust-analyzer) via wait-for-lsp proxy — filters stale diagnostics",
+  "version": "0.1.0",
+  "lspServers": {
+    "rust-analyzer": {
+      "command": "wait-for-lsp",
+      "args": ["rust-analyzer"],
+      "extensionToLanguage": {
+        ".rs": "rust"
+      }
+    }
+  }
+}
