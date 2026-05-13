@@ -29,10 +29,26 @@ This means: if you edit a file and rust-analyzer starts re-analyzing, intermedia
 
 ## Installation
 
+### Pre-built binary (recommended)
+
+Download the latest binary from [GitHub Releases](https://github.com/TonyWu20/wait-for-lsp/releases).
+Extract and place `wait-for-lsp` somewhere on your `$PATH`.
+
+### From source
+
 ```bash
-cargo install --path .
-claude plugin install plugins/wait-for-lsp-rust --scope project
+cargo install --git https://github.com/TonyWu20/wait-for-lsp
+```
+
+### Plugin
+
+Install the plugin from the [my-claude-marketplace](https://github.com/TonyWu20/my-claude-marketplace)
+to register `wait-for-lsp` as the LSP proxy for Rust, Python, and Fortran.
+Then disable the official language server plugins to avoid conflicts:
+
+```bash
 claude plugin disable rust-analyzer-lsp@claude-plugins-official --scope user
+claude plugin disable pyright-lsp@claude-plugins-official --scope user
 ```
 
 ## Env vars
