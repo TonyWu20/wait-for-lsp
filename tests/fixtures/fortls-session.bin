@@ -1,0 +1,10 @@
+Content-Length: 332
+Content-Type: application/vscode-jsonrpc; charset=utf8
+
+{"jsonrpc":"2.0","id":1,"result":{"capabilities":{"completionProvider":{"resolveProvider":false,"triggerCharacters":["%"]},"definitionProvider":true,"documentSymbolProvider":true,"referencesProvider":true,"hoverProvider":true,"implementationProvider":true,"renameProvider":true,"workspaceSymbolProvider":true,"textDocumentSync":1}}}Content-Length: 182
+Content-Type: application/vscode-jsonrpc; charset=utf8
+
+{"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///Users/tony/programming/wait-for-lsp/tests/fixtures/lsp-workspace/src/main.f90","diagnostics":[]}}Content-Length: 38
+Content-Type: application/vscode-jsonrpc; charset=utf8
+
+{"jsonrpc":"2.0","id":2,"result":null}

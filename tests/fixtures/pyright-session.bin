@@ -1,0 +1,27 @@
+Content-Length: 119
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Pyright language server 1.1.409 starting"}}Content-Length: 198
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Server root directory: file:///nix/store/r6p896zmygnmw91vm0x4rv06wssjba30-pyright-1.1.409/lib/node_modules/pyright/dist"}}Content-Length: 1046
+
+{"jsonrpc":"2.0","id":1,"result":{"capabilities":{"textDocumentSync":2,"definitionProvider":{"workDoneProgress":true},"declarationProvider":{"workDoneProgress":true},"typeDefinitionProvider":{"workDoneProgress":true},"referencesProvider":{"workDoneProgress":true},"documentSymbolProvider":{"workDoneProgress":true},"workspaceSymbolProvider":{"workDoneProgress":true},"hoverProvider":{"workDoneProgress":true},"documentHighlightProvider":{"workDoneProgress":true},"renameProvider":{"prepareProvider":true,"workDoneProgress":true},"completionProvider":{"triggerCharacters":[".","[","\"","'"],"resolveProvider":true,"workDoneProgress":true,"completionItem":{"labelDetailsSupport":true}},"signatureHelpProvider":{"triggerCharacters":["(",",",")"],"workDoneProgress":true},"codeActionProvider":{"codeActionKinds":["quickfix","source.organizeImports"],"workDoneProgress":true},"executeCommandProvider":{"commands":[],"workDoneProgress":true},"callHierarchyProvider":true,"workspace":{"workspaceFolders":{"supported":true,"changeNotifications":true}}}}}Content-Length: 118
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Starting service instance \"<default>\""}}Content-Length: 143
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"No include entries specified; assuming /<default workspace root>"}}Content-Length: 109
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Auto-excluding **/node_modules"}}Content-Length: 108
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Auto-excluding **/__pycache__"}}Content-Length: 99
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Auto-excluding **/.*"}}Content-Length: 118
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"Assuming Python version 3.12.12.final.0"}}Content-Length: 142
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":1,"message":"File or directory \"/<default workspace root>\" does not exist."}}Content-Length: 101
+
+{"jsonrpc":"2.0","method":"window/logMessage","params":{"type":3,"message":"No source files found."}}Content-Length: 1342
+
+{"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///Users/tony/programming/wait-for-lsp/tests/fixtures/lsp-workspace/src/main.py","version":1,"diagnostics":[{"range":{"start":{"line":8,"character":13},"end":{"line":8,"character":27}},"message":"Type \"Literal['not a number']\" is not assignable to declared type \"int\"\n  \"Literal['not a number']\" is not assignable to \"int\"","severity":1,"code":"reportAssignmentType","source":"Pyright","codeDescription":{"href":"https://github.com/microsoft/pyright/blob/main/docs/configuration.md#reportAssignmentType"}},{"range":{"start":{"line":9,"character":8},"end":{"line":9,"character":22}},"message":"\"unknown_module\" is not defined","severity":1,"code":"reportUndefinedVariable","source":"Pyright","codeDescription":{"href":"https://github.com/microsoft/pyright/blob/main/docs/configuration.md#reportUndefinedVariable"}},{"range":{"start":{"line":10,"character":10},"end":{"line":10,"character":12}},"message":"Argument of type \"Literal[42]\" cannot be assigned to parameter \"name\" of type \"str\" in function \"greet\"\n  \"Literal[42]\" is not assignable to \"str\"","severity":1,"code":"reportArgumentType","source":"Pyright","codeDescription":{"href":"https://github.com/microsoft/pyright/blob/main/docs/configuration.md#reportArgumentType"}}]}}Content-Length: 38
+
+{"jsonrpc":"2.0","id":2,"result":null}
