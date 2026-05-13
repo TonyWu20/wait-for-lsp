@@ -87,6 +87,8 @@ Contains 7 framed messages:
 6. **No `setup` subcommand** — deferred to future phase; proxy-only binary
 7. **Plugin format** — matches fortls-lsp format (`lspServers` key, `command` + `args` + `extensionToLanguage`)
 8. **No channels/Arc/AtomicBool** — OS pipe close on child death is the synchronization mechanism
+9. **Version tracking via Arc<Mutex<HashMap>>** — shared between stdin and stdout threads for tracking didOpen/didChange versions (added post-plan)
+10. **Per-URI dedup queue** — HashMap in the stdout thread buffers publishDiagnostics per URI, forwarding only the latest per read cycle (added post-plan, see ADR-001)
 
 ## Domain Terms Validated
 

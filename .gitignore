@@ -1,2 +1,7 @@
 .pipeline-worktrees/
 .claude/
+
+
+# Added by cargo
+
+/target

@@ -9,7 +9,7 @@ The `wait-for-lsp` binary that sits between Claude Code and a real LSP server, f
 _Avoid_: Wrapper, middleware, adapter
 
 **Stale Diagnostics**:
-`textDocument/publishDiagnostics` notifications whose content reflects the *previous* file state, not the current one.
+`textDocument/publishDiagnostics` notifications whose content reflects the *previous* file state, not the current one — either from a superseded document version (version tracking) or an intermediate incremental analysis (dedup queue). Both layers prevent stale diagnostics from reaching Claude Code.
 _Avoid_: Old diagnostics, outdated diagnostics
 
 **Severity**:
@@ -28,11 +28,20 @@ _Avoid_: Filter out, discard
 A `plugin.json` file that tells Claude Code's LSP infrastructure how to invoke the proxy with a given language server.
 _Avoid_: Extension, addon
 
+**Dedup Queue**:
+A per-URI buffer in the proxy's stdout thread. `publishDiagnostics` messages are queued by URI and only the latest per URI is forwarded at the end of each read cycle. This prevents incremental/intermediate diagnostic states from reaching the client — if rust-analyzer pushes v1 then v2 in the same cycle, only v2 is forwarded.
+_Avoid_: Debounce, throttle, buffer
+
+**Read Cycle**:
+One iteration of the stdout thread's read loop: reads a chunk from the child process pipe, feeds it to the `MessageParser`, filters each parsed message, and flushes the Dedup Queue. Non-diagnostic messages bypass the queue and are forwarded immediately.
+_Avoid_: Batch, frame
+
 ## Relationships
 
 - The **Proxy** receives LSP messages from Claude Code, forwards them to a real LSP server, and filters **Stale Diagnostics** from the server's responses before returning them to Claude Code.
 - Each **Plugin** configures the **Proxy** with the command for a specific language server.
 - The **Filter** uses **Severity** to decide when **Diagnostic Drop** is partial vs complete.
+- The **Dedup Queue** holds `publishDiagnostics` by URI, discarding superseded entries, so the client only receives the latest diagnostic state for each file per **Read Cycle**.
 
 ## Example dialogue
 
