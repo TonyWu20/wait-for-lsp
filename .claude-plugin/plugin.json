@@ -1,0 +1,39 @@
+{
+  "name": "wait-for-lsp",
+  "description": "LSP proxy that filters stale diagnostics for Rust, Python, and Fortran",
+  "version": "0.2.0",
+  "lspServers": {
+    "rust-analyzer": {
+      "command": "wait-for-lsp",
+      "args": ["rust-analyzer"],
+      "extensionToLanguage": {
+        ".rs": "rust"
+      }
+    },
+    "pyright": {
+      "command": "wait-for-lsp",
+      "args": ["pyright-langserver", "--stdio"],
+      "extensionToLanguage": {
+        ".py": "python"
+      }
+    },
+    "ty": {
+      "command": "wait-for-lsp",
+      "args": ["ty", "server"],
+      "extensionToLanguage": {
+        ".py": "python"
+      }
+    },
+    "fortls": {
+      "command": "wait-for-lsp",
+      "args": ["fortls"],
+      "extensionToLanguage": {
+        ".f90": "fortran",
+        ".f": "fortran",
+        ".f95": "fortran",
+        ".f03": "fortran",
+        ".f08": "fortran"
+      }
+    }
+  }
+}
