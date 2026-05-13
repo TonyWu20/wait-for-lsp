@@ -10,6 +10,7 @@ struct Args {
     /// LSP server command to proxy
     lsp_command: String,
     /// Arguments to pass to the LSP server
+    #[arg(allow_hyphen_values = true, trailing_var_arg = true)]
     lsp_args: Vec<String>,
 }
 
