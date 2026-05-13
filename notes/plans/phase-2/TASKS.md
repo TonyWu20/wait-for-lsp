@@ -202,6 +202,6 @@ TASK-A1 and TASK-A2 can be built together (same directory, related YAML). TASK-B
 ---
 
 ## Resume: phase-2
-**Tasks done**: TASK-D1, TASK-D2, TASK-B1, TASK-B2, TASK-A1, TASK-A2
-**Next task**: TASK-C1 (Nix flake)
-**Status**: in-progress
+**Tasks done**: TASK-D1, TASK-D2, TASK-B1, TASK-B2, TASK-A1, TASK-A2, TASK-C1
+**Next task**: (none — phase 2 complete)
+**Status**: complete
