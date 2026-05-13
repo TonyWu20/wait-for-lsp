@@ -16,22 +16,26 @@ pub struct Config {
 
 impl Config {
     pub fn from_env() -> Self {
-        let drop_diagnostics = match env::var("STAY_FRESH_DROP_DIAGNOSTICS") {
+        Self::from_source(|key| env::var(key))
+    }
+
+    fn from_source(mut f: impl FnMut(&str) -> Result<String, env::VarError>) -> Self {
+        let drop_diagnostics = match f("STAY_FRESH_DROP_DIAGNOSTICS") {
             Ok(v) => v.trim().to_lowercase() != "false",
             Err(_) => true,
         };
 
-        let min_severity = env::var("STAY_FRESH_MIN_SEVERITY")
+        let min_severity = f("STAY_FRESH_MIN_SEVERITY")
             .ok()
             .and_then(|v| v.trim().parse().ok())
             .unwrap_or(1);
 
-        let stale_filter_enabled = match env::var("STAY_FRESH_STALE_FILTER") {
+        let stale_filter_enabled = match f("STAY_FRESH_STALE_FILTER") {
             Ok(v) => v.trim().to_lowercase() != "false",
             Err(_) => true,
         };
 
-        let log_enabled = match env::var("STAY_FRESH_LOG") {
+        let log_enabled = match f("STAY_FRESH_LOG") {
             Ok(v) => v.trim().to_lowercase() == "true",
             Err(_) => false,
         };
@@ -53,14 +57,14 @@ impl Config {
 mod tests {
     use super::*;
 
+    fn config_from(vars: &[(&str, &str)]) -> Config {
+        let map: std::collections::HashMap<&str, &str> = vars.iter().copied().collect();
+        Config::from_source(|key| map.get(key).map(|s| s.to_string()).ok_or(env::VarError::NotPresent))
+    }
+
     #[test]
     fn test_defaults() {
-        unsafe { env::remove_var("STAY_FRESH_DROP_DIAGNOSTICS") };
-        unsafe { env::remove_var("STAY_FRESH_MIN_SEVERITY") };
-        unsafe { env::remove_var("STAY_FRESH_STALE_FILTER") };
-        unsafe { env::remove_var("STAY_FRESH_LOG") };
-        let c = Config::from_env();
-        // These are the documented defaults
+        let c = config_from(&[]);
         assert!(c.drop_diagnostics);
         assert_eq!(c.min_severity, 1);
         assert!(c.stale_filter_enabled);
@@ -69,64 +73,49 @@ mod tests {
 
     #[test]
     fn test_drop_diagnostics_false() {
-        unsafe { env::set_var("STAY_FRESH_DROP_DIAGNOSTICS", "false") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_DROP_DIAGNOSTICS", "false")]);
         assert!(!c.drop_diagnostics);
-        unsafe { env::remove_var("STAY_FRESH_DROP_DIAGNOSTICS") };
     }
 
     #[test]
     fn test_drop_diagnostics_arbitrary() {
-        unsafe { env::set_var("STAY_FRESH_DROP_DIAGNOSTICS", "anything") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_DROP_DIAGNOSTICS", "anything")]);
         assert!(c.drop_diagnostics);
-        unsafe { env::remove_var("STAY_FRESH_DROP_DIAGNOSTICS") };
     }
 
     #[test]
     fn test_min_severity_custom() {
-        unsafe { env::set_var("STAY_FRESH_MIN_SEVERITY", "3") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_MIN_SEVERITY", "3")]);
         assert_eq!(c.min_severity, 3);
-        unsafe { env::remove_var("STAY_FRESH_MIN_SEVERITY") };
     }
 
     #[test]
     fn test_min_severity_invalid() {
-        unsafe { env::set_var("STAY_FRESH_MIN_SEVERITY", "not-a-number") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_MIN_SEVERITY", "not-a-number")]);
         assert_eq!(c.min_severity, 1);
-        unsafe { env::remove_var("STAY_FRESH_MIN_SEVERITY") };
     }
 
     #[test]
     fn test_log_enabled_true() {
-        unsafe { env::set_var("STAY_FRESH_LOG", "true") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_LOG", "true")]);
         assert!(c.log_enabled);
-        unsafe { env::remove_var("STAY_FRESH_LOG") };
     }
 
     #[test]
     fn test_log_enabled_false() {
-        unsafe { env::set_var("STAY_FRESH_LOG", "false") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_LOG", "false")]);
         assert!(!c.log_enabled);
-        unsafe { env::remove_var("STAY_FRESH_LOG") };
     }
 
     #[test]
     fn test_stale_filter_disabled() {
-        unsafe { env::set_var("STAY_FRESH_STALE_FILTER", "false") };
-        let c = Config::from_env();
+        let c = config_from(&[("STAY_FRESH_STALE_FILTER", "false")]);
         assert!(!c.stale_filter_enabled);
-        unsafe { env::remove_var("STAY_FRESH_STALE_FILTER") };
     }
 
     #[test]
     fn test_stale_filter_default_true() {
-        unsafe { env::remove_var("STAY_FRESH_STALE_FILTER") };
-        let c = Config::from_env();
+        let c = config_from(&[]);
         assert!(c.stale_filter_enabled);
     }
 }
